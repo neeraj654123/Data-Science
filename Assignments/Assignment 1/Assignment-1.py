@@ -1,77 +1,85 @@
-employee_data = {101:
-                    {'name': 'Satya',
-                     'age': 27, 
-                     'department': 'HR', 
-                     'salary': 50000}}
- 
-
-def AddEmployee(emp_id, name, age, department, salary):
-    if emp_id in employee_data:
-        print("Employee ID already exists")
-        return
-
-    employee_data[emp_id] = {
-        "name": name,
-        "age": age,
-        "department": department,
-        "salary": salary
+employee_data = {
+    101: {
+        'name': 'Satya',
+        'age': 27,
+        'department': 'HR',
+        'salary': 50000
     }
-    print("Employee Added Successfully")
+}
 
-def ViewEmployee():
-    if not employee_data:
-        print("No employees available")
-        return
 
-    for emp_id, details in employee_data.items():
-        print(f"\nEmployee ID: {emp_id}")
-        print(f"Name: {details['name']}")
-        print(f"Age: {details['age']}")
-        print(f"Department: {details['department']}")
-        print(f"Salary: {details['salary']}")
-    
-def SearchEmployee(emp_id):
-    if emp_id not in employee_data:
-        print("Employee ID doesn't exists")
-        return
-    else:
-        print(employee_data[emp_id])
-
-while True:
-    print("MENU")
-    menu = input("""Enter the task you want to perform:
-Add Employee, 
-View All Employees,
-Search for Employee, 
-Exit
-
-): """)
-    if menu.lower() == "add employee":
-        emp_id = int(input("Enter the employee ID: "))
-
+def add_employee():
+    while True:
+        emp_id = int(input("Enter Employee ID: "))
         if emp_id in employee_data:
-            print("Employee ID already exists")
+            print("Employee ID already exists. Please enter a different ID.\n")
+        else:
             break
 
-        name = input("Enter the name of the employee: ")
-        age = int(input("Enter the age of the employee: "))
-        department = input("Enter the department of the employee: ")
-        salary = int(input("Enter the salary of the employee: "))
+    name = input("Enter Name: ")
+    age = int(input("Enter Age: "))
+    department = input("Enter Department: ")
+    salary = int(input("Enter Salary: "))
 
-        AddEmployee(emp_id, name, age, department, salary)
-        
+    employee_data[emp_id] = {
+        'name': name,
+        'age': age,
+        'department': department,
+        'salary': salary
+    }
+    print("Employee added successfully.\n")
 
-    elif menu.lower() == "view all employees":
-        ViewEmployee()
 
-    elif menu.lower() == "search for employee":
-        emp_id =int(input("Enter Employee ID: "))
-        SearchEmployee(emp_id)
+def view_employees():
+    if not employee_data:
+        print("No employees available.\n")
+        return
 
-    elif menu.lower() == "exit":
-        print("Exiting")
-        break
-    
+    print(f"{'ID':<10} {'Name':<15} {'Age':<8} {'Department':<15} {'Salary':<10}")
+    for emp_id, details in employee_data.items():
+        print(f"{emp_id:<10} {details['name']:<15} {details['age']:<8} {details['department']:<15} {details['salary']:<10}")
+
+
+def search_employee():
+    if not employee_data:
+        print("No employees available.\n")
+        return
+
+    emp_id = int(input("Enter Employee ID to search: "))
+
+    if emp_id in employee_data:
+        details = employee_data[emp_id]
+        print(f"{'ID':<10} {'Name':<15} {'Age':<8} {'Department':<15} {'Salary':<10}")
+        print(f"{emp_id:<10} {details['name']:<15} {details['age']:<8} {details['department']:<15} {details['salary']:<10}")
     else:
-        print(" Enter Invalid input") 
+        print("Employee not found.\n")
+
+
+def main_menu():
+    while True:
+        print("--- MENU ---")
+        print("1. Add Employee")
+        print("2. View All Employees")
+        print("3. Search for Employee")
+        print("4. Exit")
+        
+        choice = input("Enter your choice (1-4): ").strip()
+
+        if choice == '1' or choice.lower() == 'add employee':
+            add_employee()
+        elif choice == '2' or choice.lower() == 'view all employees':
+            view_employees()
+        elif choice == '3' or choice.lower() == 'search for employee':
+            search_employee()
+        elif choice == '4' or choice.lower() == 'exit':
+            print("Thank you for using the Employee Management System. Goodbye!")
+            break
+        else:
+            print("Invalid choice, please try again.\n")
+
+
+if __name__ == "__main__":
+    main_menu()
+
+
     
